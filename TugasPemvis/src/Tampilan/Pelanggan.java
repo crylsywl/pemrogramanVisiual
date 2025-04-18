@@ -24,8 +24,43 @@ public class Pelanggan extends javax.swing.JFrame {
     public Pelanggan() {
         initComponents();
         kosong(); 
-        aktif();
+//        aktif();
         datatable();
+    }
+    
+    private void kosong() {
+    idField.setText("");
+    namaField.setText("");
+    teleponField.setText("");
+    alamatField.setText("");
+    buttonGroup1.clearSelection();
+    }
+    
+    protected void datatable() {
+    Object[] Baris = {"id", "Nama", "Jenis Kelamin", "No. Telepon", "Alamat"};
+    tabmode = new DefaultTableModel(null, Baris);
+    String cariitem = cariField.getText();
+    
+    try {
+        String sql = "SELECT * FROM pelanggan WHERE `ID PELANGGAN` LIKE '%" + cariitem + "%' OR `NAMA PELANGGAN` LIKE '%" + cariitem + "%' ORDER BY `ID PELANGGAN` ASC";
+        Statement stat = conn.createStatement();
+        ResultSet hasil = stat.executeQuery(sql);
+        
+        while (hasil.next()) {
+            tabmode.addRow(new Object[]{
+                hasil.getString(1), 
+                hasil.getString(2),
+                hasil.getString(3),
+                hasil.getString(4), 
+                hasil.getString(5)
+            });
+        }
+        
+        Table.setModel(tabmode);
+        stat.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e);
+    }
     }
     
     
@@ -40,24 +75,29 @@ public class Pelanggan extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        namaField = new javax.swing.JTextField();
+        idField = new javax.swing.JTextField();
+        teleponField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        alamatField = new javax.swing.JTextArea();
+        lakiRadioButton = new javax.swing.JRadioButton();
+        perempuanRadioButton = new javax.swing.JRadioButton();
+        cariField = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Table = new javax.swing.JTable();
 
         jMenu1.setText("jMenu1");
 
@@ -76,34 +116,96 @@ public class Pelanggan extends javax.swing.JFrame {
 
         jLabel7.setText("ALAMAT");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        namaField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                namaFieldActionPerformed(evt);
+            }
+        });
+
+        idField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idFieldActionPerformed(evt);
             }
         });
 
         jButton1.setText("SIMPAN");
-
-        jButton2.setText("HAPUS");
-
-        jButton3.setText("BATAL");
-
-        jButton4.setText("UBAH");
-
-        jButton5.setText("KELUAR");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jRadioButton1.setText("LAKI-LAKI");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("PEREMPUAN");
+        jButton2.setText("HAPUS");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("BATAL");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("UBAH");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("KELUAR");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        alamatField.setColumns(20);
+        alamatField.setRows(5);
+        jScrollPane1.setViewportView(alamatField);
+
+        lakiRadioButton.setText("LAKI-LAKI");
+        lakiRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lakiRadioButtonActionPerformed(evt);
+            }
+        });
+
+        perempuanRadioButton.setText("PEREMPUAN");
+
+        cariField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariFieldActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("CARI");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(Table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,7 +215,7 @@ public class Pelanggan extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -124,12 +226,12 @@ public class Pelanggan extends javax.swing.JFrame {
                                 .addGap(83, 83, 83)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jRadioButton1)
+                                        .addComponent(lakiRadioButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jRadioButton2))
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField5)
+                                        .addComponent(perempuanRadioButton))
+                                    .addComponent(idField)
+                                    .addComponent(namaField)
+                                    .addComponent(teleponField)
                                     .addComponent(jScrollPane1)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,63 +242,225 @@ public class Pelanggan extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton6))
+                            .addComponent(jScrollPane2)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
+                        .addGap(173, 173, 173)
                         .addComponent(jLabel1)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(36, 36, 36)
                 .addComponent(jLabel1)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel2)
+                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35))
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
-                        .addGap(10, 10, 10)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lakiRadioButton)
+                    .addComponent(perempuanRadioButton))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(teleponField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton4)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton5))
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void namaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_namaFieldActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void lakiRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lakiRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_lakiRadioButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String jenis = null;
+    
+    if (lakiRadioButton.isSelected()) {
+        jenis = "Laki-Laki";
+    } else if (perempuanRadioButton.isSelected()) {
+        jenis = "Perempuan";
+    }
+    
+    String sql = "INSERT INTO pelanggan VALUES (?, ?, ?, ?, ?)";
+    
+    try {
+        PreparedStatement stat = conn.prepareStatement(sql);
+        stat.setString(1, idField.getText());
+        stat.setString(2, namaField.getText());
+        stat.setString(3, jenis);
+        stat.setString(4, teleponField.getText()); 
+        stat.setString(5, alamatField.getText());
+        stat.executeUpdate();
+        
+        JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+        kosong();
+        idField.requestFocus();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e);
+    }
+    
+    datatable();
+    
+    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cariFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariFieldActionPerformed
+        // TODO add your handling code here:
+          datatable();
+    }//GEN-LAST:event_cariFieldActionPerformed
+
+    private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idFieldActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String jenis = null;
+    
+    if (lakiRadioButton.isSelected()) {
+        jenis = "Laki-Laki";
+    } else if (perempuanRadioButton.isSelected()) {
+        jenis = "Perempuan";
+    }
+    
+    try {
+        String sql = "UPDATE pelanggan SET `NAMA PELANGGAN`=?, `JENIS KELAMIN`=?, TELEPON=?, ALAMAT=? " +
+                     "WHERE `ID PELANGGAN`=?";
+        
+        PreparedStatement stat = conn.prepareStatement(sql);
+        stat.setString(1, namaField.getText());
+        stat.setString(2, jenis);
+        stat.setString(3, teleponField.getText());
+        stat.setString(4, alamatField.getText());
+        stat.setString(5, idField.getText());
+        stat.executeUpdate();
+        
+        JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+        kosong();
+        idField.requestFocus();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Data gagal diubah: " + e);
+    }
+    
+    datatable();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int ok = JOptionPane.showConfirmDialog(
+        null, 
+        "Yakin ingin menghapus data?", 
+        "Konfirmasi Hapus", 
+        JOptionPane.YES_NO_OPTION
+    );
+    
+    if (ok == JOptionPane.YES_OPTION) {
+        String sql = "DELETE FROM pelanggan WHERE `ID PELANGGAN`=?";
+        
+        try {
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, idField.getText());
+            stat.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
+            kosong();
+            idField.requestFocus();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data gagal dihapus: " + e);
+        }
+        
+        datatable();
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        kosong(); 
+        datatable();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        datatable();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
+        // TODO add your handling code here:
+        // Get selected row
+    int selectedRow = Table.getSelectedRow();
+    
+    // Check if a row is actually selected
+    if (selectedRow < 0) {
+        return;
+    }
+
+    // Get values from selected row
+    String id = tabmode.getValueAt(selectedRow, 0).toString();
+    String nama = tabmode.getValueAt(selectedRow, 1).toString();
+    String jenisKelamin = tabmode.getValueAt(selectedRow, 2).toString();
+    String telepon = tabmode.getValueAt(selectedRow, 3).toString();
+    String alamat = tabmode.getValueAt(selectedRow, 4).toString();
+
+    // Set values to form fields
+    idField.setText(id);
+    namaField.setText(nama);
+    
+    // Set gender radio buttons
+    if ("Laki-Laki".equals(jenisKelamin)) {
+        lakiRadioButton.setSelected(true);
+    } else {
+        perempuanRadioButton.setSelected(true);
+    }
+    
+    teleponField.setText(telepon);
+    alamatField.setText(alamat);
+    }                                    
+
+    private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {                                   
+    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        datatable();
+        }
+    }//GEN-LAST:event_TableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -234,11 +498,17 @@ public class Pelanggan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Table;
+    private javax.swing.JTextArea alamatField;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField cariField;
+    private javax.swing.JTextField idField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -246,12 +516,11 @@ public class Pelanggan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton lakiRadioButton;
+    private javax.swing.JTextField namaField;
+    private javax.swing.JRadioButton perempuanRadioButton;
+    private javax.swing.JTextField teleponField;
     // End of variables declaration//GEN-END:variables
 }
