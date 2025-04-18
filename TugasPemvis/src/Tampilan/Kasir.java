@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import Koneksi.Koneksi;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -71,6 +73,20 @@ public class Kasir extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e);
         }
     }
+    
+    public static String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashedBytes = md.digest(password.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException(e);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -390,7 +406,7 @@ public class Kasir extends javax.swing.JFrame {
             stat.setString(4, teleponField.getText());
             stat.setString(5, alamatField.getText());
             stat.setString(6, userNameField.getText());
-            stat.setString(7, passField.getText()); // Password disimpan sebagai plain text (sebaiknya dienkripsi)
+            stat.setString(7, hashPassword(passField.getText())); // Password disimpan sebagai plain text (sebaiknya dienkripsi)
             stat.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Data kasir berhasil disimpan");
