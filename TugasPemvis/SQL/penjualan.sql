@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Apr 2025 pada 15.16
+-- Waktu pembuatan: 29 Apr 2025 pada 12.00
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `penjualan`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `barang`
+--
+
+CREATE TABLE `barang` (
+  `KODE BARANG` varchar(25) NOT NULL,
+  `NAMA BARANG` varchar(225) NOT NULL,
+  `JENIS` varchar(15) NOT NULL,
+  `HARGA BELI` int(255) NOT NULL,
+  `HARGA JUAL` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `barang`
+--
+
+INSERT INTO `barang` (`KODE BARANG`, `NAMA BARANG`, `JENIS`, `HARGA BELI`, `HARGA JUAL`) VALUES
+('123', 'awo', 'Makanan', 12000, 13000),
+('6464', 'ayam', 'Makanan', 10000, 11000),
+('BRG00005', 'Es Jeruk', 'Minuman', 8000, 10000),
+('BRG0001', 'BAKSO', 'Makanan', 12000, 15000),
+('BRG0002', 'TEH BOTOL', 'Minuman', 6000, 10000),
+('BRG0003', 'Mie Ayam', 'Makanan', 13000, 16000),
+('brg007', 'geprek gondes', 'Makanan', 20000, 27000);
 
 -- --------------------------------------------------------
 
@@ -71,6 +98,12 @@ INSERT INTO `pelanggan` (`ID PELANGGAN`, `NAMA PELANGGAN`, `JENIS KELAMIN`, `TEL
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `barang`
+--
+ALTER TABLE `barang`
+  ADD PRIMARY KEY (`KODE BARANG`);
 
 --
 -- Indeks untuk tabel `kasir`
